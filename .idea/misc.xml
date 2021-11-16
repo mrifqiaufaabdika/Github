@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/shimmer_circele.xml" value="0.221025641025641" />
+        <entry key="app/src/main/res/layout/activity_detail_user.xml" value="0.31209150326797386" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.10131712259371833" />
+        <entry key="app/src/main/res/layout/detail_user.xml" value="0.10131712259371833" />
+        <entry key="app/src/main/res/layout/fragment_followers.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_following.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/shimmer_detail_user.xml" value="0.30173775671406006" />
+        <entry key="app/src/main/res/layout/shimmer_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/single_row.xml" value="0.27411944869831545" />
+        <entry key="app/src/main/res/menu/option_menu.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

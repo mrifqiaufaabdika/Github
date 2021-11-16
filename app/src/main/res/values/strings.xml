@@ -1,0 +1,112 @@
+<resources>
+    <integer-array name="repository">
+        <item>110</item>
+        <item>203</item>
+        <item>3</item>
+        <item>10</item>
+        <item>23</item>
+        <item>21</item>
+        <item>43</item>
+        <item>42</item>
+        <item>10</item>
+        <item>342</item>
+    </integer-array>
+    <integer-array name="following">
+        <item>43</item>
+        <item>54</item>
+        <item>43</item>
+        <item>42</item>
+        <item>45</item>
+        <item>2</item>
+        <item>34</item>
+        <item>65</item>
+        <item>43</item>
+        <item>32</item>
+    </integer-array>
+
+    <string name="app_name">Github</string>
+
+    <string name="cari_pengguna_github">Cari Pengguna Github</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_text1">Followers</string>
+    <string name="tab_text2">Following</string>
+
+    <string-array name="data_name">
+        <item>Muhammad</item>
+        <item>Ubaidillah</item>
+        <item>Abdullah</item>
+        <item>Ali Ahmad</item>
+        <item>Ubay Bin Kaab</item>
+        <item>Aufa Abdika</item>
+        <item>Umar Bin Khattab</item>
+        <item>Utsman Bin Affan</item>
+        <item>Saad</item>
+        <item>Bilal</item>
+    </string-array>
+
+    <string-array name="username">
+        <item>MuhammadHusin</item>
+        <item>UbaidillahAbdika</item>
+        <item>AbdullahHasan</item>
+        <item>AliAhmad</item>
+        <item>UbayBinKaab</item>
+        <item>AufaAbdika</item>
+        <item>UmarBinKhattab</item>
+        <item>UtsmanBinAffan</item>
+        <item>SaadBinAbiWaqos</item>
+        <item>BilalBinRabbah</item>
+    </string-array>
+
+    <string-array name="avatar">
+        <item>@drawable/user1</item>
+        <item>@drawable/user2</item>
+        <item>@drawable/user3</item>
+        <item>@drawable/user4</item>
+        <item>@drawable/user5</item>
+        <item>@drawable/user6</item>
+        <item>@drawable/user7</item>
+        <item>@drawable/user8</item>
+        <item>@drawable/user9</item>
+        <item>@drawable/user10</item>
+    </string-array>
+
+    <string-array name="company">
+        <item>Google</item>
+        <item>Microsoft</item>
+        <item>Dicoding</item>
+        <item>Apple</item>
+        <item>OpenAI</item>
+        <item>Google, Inc</item>
+        <item>GoJek</item>
+        <item>Maxim</item>
+        <item>Shoppe</item>
+        <item>Dell</item>
+    </string-array>
+
+    <string-array name="location">
+        <item>Madinah</item>
+        <item>Indonesia</item>
+        <item>Jakarta</item>
+        <item>Bandung</item>
+        <item>USA</item>
+        <item>Silicon Vally</item>
+        <item>London</item>
+        <item>New Delhi</item>
+        <item>California</item>
+        <item>Makkah</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="follower">
+        <item>10K</item>
+        <item>34K</item>
+        <item>35K</item>
+        <item>9K</item>
+        <item>233K</item>
+        <item>211K</item>
+        <item>432K</item>
+        <item>432K</item>
+        <item>103K</item>
+        <item>342K</item>
+    </string-array>
+</resources>
