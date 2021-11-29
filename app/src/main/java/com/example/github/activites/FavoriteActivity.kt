@@ -85,6 +85,7 @@ class FavoriteActivity : AppCompatActivity() {
                     }
                 })
             } else {
+                adapter.setListUservaforite(userFavoriteList)
                 Toast.makeText(this, "Tidak Ada Data Favorite", Toast.LENGTH_SHORT).show()
             }
         })
