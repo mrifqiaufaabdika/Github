@@ -21,7 +21,7 @@ import retrofit2.Callback
 
 class FollowingFragment(username: String) : Fragment() {
     private val username = username
-    private lateinit var rv_user : RecyclerView
+    private lateinit var rv_user: RecyclerView
     private lateinit var shimmer: ShimmerFrameLayout
 
     private lateinit var binding: FragmentFollowBinding
@@ -51,12 +51,13 @@ class FollowingFragment(username: String) : Fragment() {
 
     }
 
-    private fun findFollower(query: String){
+    private fun findFollower(query: String) {
         //start loading
         loading(true)
 
 
-        val client =  ApiConfig.getApiService().getFollowing(this.getString(R.string.github_key_api),query)
+        val client =
+            ApiConfig.getApiService().getFollowing(this.getString(R.string.github_key_api), query)
         client.enqueue(object : Callback<List<FollowResponse>> {
 
 
@@ -65,33 +66,33 @@ class FollowingFragment(username: String) : Fragment() {
                 response: retrofit2.Response<List<FollowResponse>>
             ) {
                 val responseBody = response.body()
-                if (response.isSuccessful&&responseBody!= null){
+                if (response.isSuccessful && responseBody != null) {
                     loading(false)
                     rv_user.visibility = View.VISIBLE
                     setReviewData(responseBody)
 
-                }else{
+                } else {
                     loading(false)
-                    Toast.makeText(context,"Gagal Memuat Data", Toast.LENGTH_SHORT).show()
-                    Log.e(ContentValues.TAG,"onFailure: ${response.message()}")
+                    Toast.makeText(context, "Gagal Memuat Data", Toast.LENGTH_SHORT).show()
+                    Log.e(ContentValues.TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<List<FollowResponse>>, t: Throwable) {
-                Toast.makeText(context,"Gagal Memuat Data", Toast.LENGTH_SHORT).show()
-                Log.e(ContentValues.TAG,"onFailure: ${t.message}")
+                Toast.makeText(context, "Gagal Memuat Data", Toast.LENGTH_SHORT).show()
+                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
             }
         })
     }
 
     private fun loading(b: Boolean) {
-        if (b){
+        if (b) {
             rv_user.visibility = View.GONE
             shimmer.startShimmer()
-            shimmer.visibility  = View.VISIBLE
-        }else{
+            shimmer.visibility = View.VISIBLE
+        } else {
             shimmer.stopShimmer()
-            shimmer.visibility  = View.GONE
+            shimmer.visibility = View.GONE
             rv_user.visibility = View.VISIBLE
         }
     }
@@ -101,7 +102,7 @@ class FollowingFragment(username: String) : Fragment() {
 
         rv_user.layoutManager = LinearLayoutManager(context)
         val followAdapter = FollowAdapter(items)
-        rv_user.adapter =followAdapter
+        rv_user.adapter = followAdapter
 
     }
 

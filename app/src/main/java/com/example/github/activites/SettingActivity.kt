@@ -19,27 +19,28 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 class SettingActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivitySettingBinding
-    private lateinit var switchTheme  : SwitchMaterial
+    private lateinit var binding: ActivitySettingBinding
+    private lateinit var switchTheme: SwitchMaterial
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =  ActivitySettingBinding.inflate(layoutInflater)
+        binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val activity = this
         val pref = SettingPreferences.getInstance(dataStore)
 
-        val mainViewModel = ViewModelProvider(this,ViewModelFactory(activity.application,pref)).get(
-            MainViewModel::class.java
-        )
+        val mainViewModel =
+            ViewModelProvider(this, ViewModelFactory(activity.application, pref)).get(
+                MainViewModel::class.java
+            )
 
         mainViewModel.getThemeSettings().observe(this,
-            {  isDrakModeActive:Boolean ->
-                if (isDrakModeActive){
+            { isDrakModeActive: Boolean ->
+                if (isDrakModeActive) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     switchTheme.isChecked = true
-                }else{
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     switchTheme.isChecked = false
                 }
@@ -47,7 +48,7 @@ class SettingActivity : AppCompatActivity() {
             })
 
         switchTheme = binding.switchTheme
-        switchTheme.setOnCheckedChangeListener { _: CompoundButton, isChecked : Boolean ->
+        switchTheme.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
             mainViewModel.saveThemeSetting(isChecked)
         }
 

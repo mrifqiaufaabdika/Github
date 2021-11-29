@@ -5,19 +5,20 @@ import androidx.lifecycle.ViewModel
 import com.example.github.database.UserFavorite
 import com.example.github.repository.UserFavoriteRepository
 
-class UserFavoriteAddViewModel (application: Application) :ViewModel() {
+class UserFavoriteAddViewModel(application: Application) : ViewModel() {
 
-    private val mUserFavoriteRepository : UserFavoriteRepository =  UserFavoriteRepository(application)
+    private val mUserFavoriteRepository: UserFavoriteRepository =
+        UserFavoriteRepository(application)
 
-    fun insert(userFavorite : UserFavorite){
+    fun insert(userFavorite: UserFavorite) {
         mUserFavoriteRepository.insert(userFavorite)
     }
 
-    fun update(userFavorite : UserFavorite){
+    fun update(userFavorite: UserFavorite) {
         mUserFavoriteRepository.update(userFavorite)
     }
 
-    fun delete(userFavorite: UserFavorite){
+    fun delete(userFavorite: UserFavorite) {
         mUserFavoriteRepository.delete(userFavorite)
     }
 }

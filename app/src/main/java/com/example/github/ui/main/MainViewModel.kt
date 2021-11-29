@@ -10,18 +10,19 @@ import com.example.github.datastore.SettingPreferences
 import com.example.github.repository.UserFavoriteRepository
 import kotlinx.coroutines.launch
 
-class MainViewModel (application: Application, private  val pref:SettingPreferences) :ViewModel() {
-    private val mUserFavoriteRepository :  UserFavoriteRepository =  UserFavoriteRepository(application)
+class MainViewModel(application: Application, private val pref: SettingPreferences) : ViewModel() {
+    private val mUserFavoriteRepository: UserFavoriteRepository =
+        UserFavoriteRepository(application)
 
 
+    fun getAllUserFavorites(): LiveData<List<UserFavorite>> =
+        mUserFavoriteRepository.getAllUserFavorite()
 
-    fun getAllUserFavorites() : LiveData<List<UserFavorite>> = mUserFavoriteRepository.getAllUserFavorite()
-
-    fun getThemeSettings() : LiveData<Boolean> {
+    fun getThemeSettings(): LiveData<Boolean> {
         return pref.getThemeSetting().asLiveData()
     }
 
-    fun saveThemeSetting(isDarkModeActive:Boolean){
+    fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
             pref.saveThemeSetting(isDarkModeActive)
         }

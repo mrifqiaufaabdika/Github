@@ -15,7 +15,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.github.ItemsItem
 import com.example.github.R
 import com.example.github.adapters.SectionPagerAdapter
 import com.example.github.database.UserFavorite
@@ -37,18 +36,16 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class DetailUserActivity : AppCompatActivity() {
 
 
-
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var shimmer: ShimmerFrameLayout
-    private lateinit var mIclove : ImageView
+    private lateinit var mIclove: ImageView
 
 
-
-    private lateinit var user :DetailUserResponse
+    private lateinit var user: DetailUserResponse
 
     private lateinit var userFavoriteAddViewModel: UserFavoriteAddViewModel
 
-    private var userFavorite : UserFavorite? = null
+    private var userFavorite: UserFavorite? = null
 
     companion object {
         @StringRes
@@ -76,11 +73,10 @@ class DetailUserActivity : AppCompatActivity() {
             getDetailUser(username)
 
             val sectionsPagerAdapter = SectionPagerAdapter(this, username)
-            val viewPager : ViewPager2 = binding.viewPager
+            val viewPager: ViewPager2 = binding.viewPager
             viewPager.adapter = sectionsPagerAdapter
-            val tabs :TabLayout = binding.tabLayout
-            TabLayoutMediator(tabs, viewPager) {
-                    tab,position ->
+            val tabs: TabLayout = binding.tabLayout
+            TabLayoutMediator(tabs, viewPager) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()
         }
@@ -90,9 +86,9 @@ class DetailUserActivity : AppCompatActivity() {
         mIclove.setOnClickListener(View.OnClickListener {
 
             if (user != null) {
-                userFavorite =  UserFavorite()
-                userFavorite.let { userFavorite->
-                     userFavorite?.login= user.login
+                userFavorite = UserFavorite()
+                userFavorite.let { userFavorite ->
+                    userFavorite?.login = user.login
                     userFavorite?.avatarUrl = user.avatarUrl
                 }
 
@@ -108,27 +104,27 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun obtainViewModel(activity: AppCompatActivity): UserFavoriteAddViewModel {
         var pref = SettingPreferences.getInstance(dataStore)
-        val factory = ViewModelFactory.getInstance(activity.application,pref)
+        val factory = ViewModelFactory.getInstance(activity.application, pref)
         return ViewModelProvider(activity, factory).get(UserFavoriteAddViewModel::class.java)
     }
-
 
 
     private fun getDetailUser(username: String) {
         loading(true)
 
-        val client = ApiConfig.getApiService().getDetailUser(this.getString(R.string.github_key_api),username)
-        client.enqueue(object : Callback<DetailUserResponse>{
+        val client = ApiConfig.getApiService()
+            .getDetailUser(this.getString(R.string.github_key_api), username)
+        client.enqueue(object : Callback<DetailUserResponse> {
             override fun onResponse(
                 call: Call<DetailUserResponse>,
                 response: Response<DetailUserResponse>
             ) {
                 loading(false)
                 val responseBody = response.body()
-                if (response.isSuccessful&&responseBody!= null) {
+                if (response.isSuccessful && responseBody != null) {
                     user = responseBody
                     initData(user)
-                }else{
+                } else {
                     showToast("Gagal Memuat Detail User")
                 }
             }
@@ -136,12 +132,10 @@ class DetailUserActivity : AppCompatActivity() {
             override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
                 loading(false)
                 showToast("Gagal Memuat Detail User")
-                Log.e(ContentValues.TAG,"onFailure: ${t.message}")
+                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
             }
 
         })
-
-
 
 
     }
@@ -153,24 +147,24 @@ class DetailUserActivity : AppCompatActivity() {
             .into(binding.avatar)
         binding.name.text = user.name
         binding.username.text = user.login
-        binding.company.text = user.company+" | "
+        binding.company.text = user.company + " | "
         binding.location.text = user.location
-        binding.follower.text = user.followers.toString()+"\nFollower"
-        binding.repo.text = user.publicRepos.toString()+"\nRepository"
-        binding.folowing.text = user.following.toString()+"\nFollowing"
+        binding.follower.text = user.followers.toString() + "\nFollower"
+        binding.repo.text = user.publicRepos.toString() + "\nRepository"
+        binding.folowing.text = user.following.toString() + "\nFollowing"
 
 
     }
 
     private fun loading(b: Boolean) {
-        if (b){
+        if (b) {
 
             shimmer.startShimmer()
-            shimmer.visibility  = View.VISIBLE
-        }else{
+            shimmer.visibility = View.VISIBLE
+        } else {
             shimmer.stopShimmer()
-            shimmer.visibility  = View.GONE
-            
+            shimmer.visibility = View.GONE
+
         }
 
 

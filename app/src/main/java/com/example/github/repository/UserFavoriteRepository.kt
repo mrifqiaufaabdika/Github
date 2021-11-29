@@ -10,35 +10,34 @@ import java.util.concurrent.Executors
 
 class UserFavoriteRepository(application: Application) {
 
-    private val mUserFavoriteDao : UserFavoriteDao
+    private val mUserFavoriteDao: UserFavoriteDao
 
-    private val executorService :ExecutorService = Executors.newSingleThreadExecutor()
+    private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
     init {
         val db = UserFavoriteDatabase.getDatabase(application)
         mUserFavoriteDao = db.userFavoriteDao()
     }
 
-    fun getAllUserFavorite() :LiveData<List<UserFavorite>> = mUserFavoriteDao.getAllUserFavorite()
+    fun getAllUserFavorite(): LiveData<List<UserFavorite>> = mUserFavoriteDao.getAllUserFavorite()
 
-    fun insert(userFavorite: UserFavorite){
-        executorService.execute{
+    fun insert(userFavorite: UserFavorite) {
+        executorService.execute {
             mUserFavoriteDao.Insert(userFavorite)
         }
     }
 
-    fun delete(userFavorite: UserFavorite){
-        executorService.execute{
+    fun delete(userFavorite: UserFavorite) {
+        executorService.execute {
             mUserFavoriteDao.delete(userFavorite)
         }
     }
 
-    fun update(userFavorite: UserFavorite){
-        executorService.execute{
+    fun update(userFavorite: UserFavorite) {
+        executorService.execute {
             mUserFavoriteDao.update(userFavorite)
         }
     }
-
 
 
 }
