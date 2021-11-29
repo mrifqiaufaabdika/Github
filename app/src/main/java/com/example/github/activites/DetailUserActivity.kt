@@ -1,19 +1,30 @@
 package com.example.github.activites
 
 import android.content.ContentValues
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.github.ItemsItem
 import com.example.github.R
 import com.example.github.adapters.SectionPagerAdapter
+import com.example.github.database.UserFavorite
 import com.example.github.databinding.ActivityDetailUserBinding
+import com.example.github.datastore.SettingPreferences
 import com.example.github.responses.DetailUserResponse
 import com.example.github.services.ApiConfig
+import com.example.github.ui.insert.UserFavoriteAddViewModel
+import com.example.github.ui.main.ViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -21,11 +32,23 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class DetailUserActivity : AppCompatActivity() {
 
+
+
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var shimmer: ShimmerFrameLayout
+    private lateinit var mIclove : ImageView
+
+
+
+    private lateinit var user :DetailUserResponse
+
+    private lateinit var userFavoriteAddViewModel: UserFavoriteAddViewModel
+
+    private var userFavorite : UserFavorite? = null
 
     companion object {
         @StringRes
@@ -33,6 +56,9 @@ class DetailUserActivity : AppCompatActivity() {
             R.string.tab_text1,
             R.string.tab_text2
         )
+        const val EXTRA_USER_FAVORITE = "extra_user_favorit"
+        const val ALERT_DIALOG_CLOSE = 10
+        const val ALERT_DIALOG_DELETE = 20
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +68,9 @@ class DetailUserActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra("username")
         shimmer = binding.included.shimmerViewContainer
+        mIclove = binding.icLove
+
+        userFavoriteAddViewModel = obtainViewModel(this)
 
         if (username != null) {
             getDetailUser(username)
@@ -56,15 +85,39 @@ class DetailUserActivity : AppCompatActivity() {
             }.attach()
         }
 
+        mIclove.setImageDrawable(this.getDrawable(R.drawable.ic_favorite))
 
+        mIclove.setOnClickListener(View.OnClickListener {
+
+            if (user != null) {
+                userFavorite =  UserFavorite()
+                userFavorite.let { userFavorite->
+                     userFavorite?.login= user.login
+                    userFavorite?.avatarUrl = user.avatarUrl
+                }
+
+                userFavoriteAddViewModel.insert(userFavorite as UserFavorite)
+                mIclove.setImageDrawable(this.getDrawable(R.drawable.ic_favorite_active))
+                showToast("Berhasi Menambahkan Favorit")
+            }
+
+        })
 
 
     }
 
+    private fun obtainViewModel(activity: AppCompatActivity): UserFavoriteAddViewModel {
+        var pref = SettingPreferences.getInstance(dataStore)
+        val factory = ViewModelFactory.getInstance(activity.application,pref)
+        return ViewModelProvider(activity, factory).get(UserFavoriteAddViewModel::class.java)
+    }
+
+
+
     private fun getDetailUser(username: String) {
         loading(true)
 
-        val client = ApiConfig.getApiService().getDetailUser("token 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",username)
+        val client = ApiConfig.getApiService().getDetailUser(this.getString(R.string.github_key_api),username)
         client.enqueue(object : Callback<DetailUserResponse>{
             override fun onResponse(
                 call: Call<DetailUserResponse>,
@@ -73,15 +126,16 @@ class DetailUserActivity : AppCompatActivity() {
                 loading(false)
                 val responseBody = response.body()
                 if (response.isSuccessful&&responseBody!= null) {
-                    initData(responseBody)
+                    user = responseBody
+                    initData(user)
                 }else{
-                    Toast.makeText(this@DetailUserActivity,"Gagal Memuat Detail User",Toast.LENGTH_SHORT).show()
+                    showToast("Gagal Memuat Detail User")
                 }
             }
 
             override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
                 loading(false)
-                Toast.makeText(this@DetailUserActivity,"Gagal Memuat Detail User",Toast.LENGTH_SHORT).show()
+                showToast("Gagal Memuat Detail User")
                 Log.e(ContentValues.TAG,"onFailure: ${t.message}")
             }
 
@@ -118,5 +172,11 @@ class DetailUserActivity : AppCompatActivity() {
             shimmer.visibility  = View.GONE
             
         }
+
+
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,6 +1,7 @@
 package com.example.github.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -19,6 +20,7 @@ class FollowAdapter(private val listUser: List<FollowResponse>): RecyclerView.Ad
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = SingleRowBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        binding.delete.visibility = View.GONE
         return ListViewHolder(binding)
     }
 

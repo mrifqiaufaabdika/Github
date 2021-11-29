@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.github.R
 import com.example.github.adapters.FollowAdapter
 import com.example.github.databinding.FragmentFollowBinding
 import com.example.github.responses.FollowResponse
@@ -55,7 +56,7 @@ class FollowingFragment(username: String) : Fragment() {
         loading(true)
 
 
-        val client =  ApiConfig.getApiService().getFollowing("token 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",query)
+        val client =  ApiConfig.getApiService().getFollowing(this.getString(R.string.github_key_api),query)
         client.enqueue(object : Callback<List<FollowResponse>> {
 
 

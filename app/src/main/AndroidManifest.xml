@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activites.DetailUserActivity" />
+        <activity android:name=".activites.FavoriteActivity" />
+        <activity android:name=".activites.SettingActivity" />
     </application>
     
     <uses-permission android:name="android.permission.INTERNET"/>

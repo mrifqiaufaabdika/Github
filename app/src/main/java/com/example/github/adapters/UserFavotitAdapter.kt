@@ -1,15 +1,14 @@
 package com.example.github.adapters
 
-import android.transition.Visibility
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.github.ItemsItem
+
+import com.example.github.database.UserFavorite
 import com.example.github.databinding.SingleRowBinding
 
-class ListUserAdapter(private val listUser: List<ItemsItem>): RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
+class UserFavotitAdapter(private val listUser: List<UserFavorite>): RecyclerView.Adapter<UserFavotitAdapter.ListViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -23,7 +22,6 @@ class ListUserAdapter(private val listUser: List<ItemsItem>): RecyclerView.Adapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = SingleRowBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-            binding.delete.visibility = View.GONE
         return ListViewHolder(binding)
     }
 
@@ -39,6 +37,7 @@ class ListUserAdapter(private val listUser: List<ItemsItem>): RecyclerView.Adapt
                     .into(binding.avatar)
 
                 holder.itemView.setOnClickListener{onItemClickCallback.onItemClicked(listUser[holder.adapterPosition])}
+                binding.delete.setOnClickListener{onItemClickCallback.onItemDelete(listUser[holder.adapterPosition])}
 
             }
         }
@@ -48,7 +47,8 @@ class ListUserAdapter(private val listUser: List<ItemsItem>): RecyclerView.Adapt
     override fun getItemCount(): Int = listUser.size
 
     interface OnItemClickCallback{
-        fun onItemClicked(data: ItemsItem)
+        fun onItemClicked(data: UserFavorite)
+        fun onItemDelete(data: UserFavorite)
     }
 
 }

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -33,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.fabFavorite.setOnClickListener {
+            startActivity(Intent(this@MainActivity, FavoriteActivity::class.java))
+        }
+
 
     }
 
@@ -46,6 +51,10 @@ class MainActivity : AppCompatActivity() {
 
         val searchManager =  getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu?.findItem(R.id.search)?.actionView as SearchView
+
+
+
+
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint = resources.getString(R.string.cari_pengguna_github)
@@ -70,6 +79,17 @@ class MainActivity : AppCompatActivity() {
 
         })
         return true
+
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id =  item.itemId
+
+        if (id == R.id.settings){
+            startActivity(Intent(this,SettingActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun moveShowSelectUser(user: ItemsItem){
@@ -83,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         loading(true)
 
 
-        val client =  ApiConfig.getApiService().getUser("token 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",query)
+        val client =  ApiConfig.getApiService().getUser(this.getString(R.string.github_key_api),query)
         client.enqueue(object : Callback<SearchResponse> {
             override fun onResponse(
                 call: Call<SearchResponse>,
