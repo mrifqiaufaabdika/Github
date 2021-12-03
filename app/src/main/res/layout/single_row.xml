@@ -7,7 +7,7 @@
     android:elevation="100dp"
     android:layout_marginBottom="5dp"
     android:layout_marginHorizontal="20dp"
-    card_view:cardBackgroundColor="@android:color/white"
+
     card_view:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-black"
             android:maxLines="1"
-            android:textColor="@color/black"
+
             android:textSize="16dp"
             card_view:layout_constraintBottom_toBottomOf="@+id/avatar"
             card_view:layout_constraintEnd_toStartOf="@+id/delete"
@@ -52,7 +52,6 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif"
             android:maxLines="1"
-            android:textColor="@color/black"
             android:textSize="12dp"
             card_view:layout_constraintBottom_toBottomOf="@+id/avatar"
             card_view:layout_constraintEnd_toStartOf="@+id/delete"

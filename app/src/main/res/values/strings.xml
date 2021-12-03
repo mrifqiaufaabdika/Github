@@ -30,7 +30,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_text1">Followers</string>
     <string name="tab_text2">Following</string>
-    <string name="github_key_api">token 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</string>
+    <string name="github_key_api">token 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</string>
 
     <string-array name="data_name">
         <item>Muhammad</item>

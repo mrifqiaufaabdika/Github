@@ -39,5 +39,9 @@ class UserFavoriteRepository(application: Application) {
         }
     }
 
+    fun getOne(login : String) : Int = mUserFavoriteDao.getOne(login)
+
+
+
 
 }

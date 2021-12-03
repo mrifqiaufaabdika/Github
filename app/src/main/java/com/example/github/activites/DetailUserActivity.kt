@@ -23,6 +23,7 @@ import com.example.github.datastore.SettingPreferences
 import com.example.github.responses.DetailUserResponse
 import com.example.github.services.ApiConfig
 import com.example.github.ui.insert.UserFavoriteAddViewModel
+import com.example.github.ui.main.MainViewModel
 import com.example.github.ui.main.ViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.tabs.TabLayout
@@ -30,6 +31,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.atomic.AtomicInteger
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -46,6 +48,8 @@ class DetailUserActivity : AppCompatActivity() {
     private lateinit var userFavoriteAddViewModel: UserFavoriteAddViewModel
 
     private var userFavorite: UserFavorite? = null
+    private var fcount = AtomicInteger()
+    private var fav : Int = 0
 
     companion object {
         @StringRes
@@ -81,11 +85,26 @@ class DetailUserActivity : AppCompatActivity() {
             }.attach()
         }
 
-        mIclove.setImageDrawable(this.getDrawable(R.drawable.ic_favorite))
+
+        val t = Thread {
+            val num: Int = userFavoriteAddViewModel.getOne(username.toString())
+            fcount.set(num)
+        }
+        t.priority = 10
+        t.start()
+        t.join()
+        fav = fcount.get()
+
+
+        if ( fav == 0) {
+            mIclove.setImageDrawable(this.getDrawable(R.drawable.ic_favorite))
+        }else{
+            mIclove.setImageDrawable(this.getDrawable(R.drawable.ic_favorite_active))
+        }
 
         mIclove.setOnClickListener(View.OnClickListener {
 
-            if (user != null) {
+            if (user != null && fav == 0) {
                 userFavorite = UserFavorite()
                 userFavorite.let { userFavorite ->
                     userFavorite?.login = user.login
@@ -94,7 +113,10 @@ class DetailUserActivity : AppCompatActivity() {
 
                 userFavoriteAddViewModel.insert(userFavorite as UserFavorite)
                 mIclove.setImageDrawable(this.getDrawable(R.drawable.ic_favorite_active))
+                fav++
                 showToast("Berhasi Menambahkan Favorit")
+            }else{
+                showToast("Sudah Favorit")
             }
 
         })
@@ -107,6 +129,7 @@ class DetailUserActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(activity.application, pref)
         return ViewModelProvider(activity, factory).get(UserFavoriteAddViewModel::class.java)
     }
+
 
 
     private fun getDetailUser(username: String) {
@@ -124,6 +147,9 @@ class DetailUserActivity : AppCompatActivity() {
                 if (response.isSuccessful && responseBody != null) {
                     user = responseBody
                     initData(user)
+
+
+
                 } else {
                     showToast("Gagal Memuat Detail User")
                 }
